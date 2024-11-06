@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
 const Input = ({ placeholder, name, type, value, handleChange }) => {
+  console.log("Input", placeholder, value);
   return (
     <input
       placeholder={placeholder}
