@@ -4,9 +4,9 @@ require("@nomicfoundation/hardhat-toolbox");
 module.exports = {
   solidity: "0.8.17",
   networks: {
-    arbitrum: {
-      url: `${process.env.ALCHEMY_ARBITRUM_URL}`,
-      accounts: [`0x${process.env.ARBITRUM_PRIVATE_KEY}`],
+    sepolia: {
+      url: process.env.ALCHEMY_ARBITRUM_URL,
+      accounts: [process.env.ARBITRUM_PRIVATE_KEY],
     },
   },
 };
