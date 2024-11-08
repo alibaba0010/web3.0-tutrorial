@@ -1,7 +1,15 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext } from "react";
 
 const TransactionContext = createContext({
-  value: "",
+  value: {
+    connectWallet: () => {},
+    handleChange: () => {},
+    handleSubmit: () => {},
+    formData: {},
+    isLoading: false,
+    sendTransaction: () => {},
+    currentAccount: "",
+  },
 });
 
 export default TransactionContext;

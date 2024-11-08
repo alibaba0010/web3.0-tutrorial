@@ -5,11 +5,19 @@ const { ethereum } = window;
 const TransactionsProvider = ({ children }) => {
   const [connectAccount, setConnectAccount] = useState("");
   const checkWallet = async () => {
-    if (!ethereum) return alert("Please install metamask wallet");
-    // get accounts
-    const address = await ethereum.request({ method: "eth_accounts" });
-
-    console.log("Address: " + address);
+    try {
+      if (!ethereum) return alert("Please install metamask wallet");
+      // get accounts
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+      if (accounts.length) {
+        setConnectAccount(accounts[0]);
+        // get All transactions
+      }
+      console.log("Address: " + accounts);
+    } catch (error) {
+      alert("No account found");
+      console.log(error);
+    }
   };
   useEffect(() => {
     checkWallet();
@@ -26,7 +34,9 @@ const TransactionsProvider = ({ children }) => {
     }
   };
   return (
-    <TransactionContext.Provider value={{ connectWallet }}>
+    <TransactionContext.Provider
+      value={{ connectWallet, currentAccount: connectAccount }}
+    >
       {children}
     </TransactionContext.Provider>
   );
