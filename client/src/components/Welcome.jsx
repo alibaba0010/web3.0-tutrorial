@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AiFillPlayCircle } from "react-icons/ai";
 import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
@@ -17,13 +17,12 @@ const Welcome = () => {
   const {
     currentAccount,
     connectWallet,
-    //   handleChange,
-    //   sendTransaction,
-    //   formData,
+    handleChange,
+    sendTransaction,
+    formData,
     //   isLoading,
   } = useContext(TransactionContext);
   console.log("Current Account: " + currentAccount);
-  const handleChange = () => {};
   const handleSubmit = (e) => {
     // const { addressTo, amount, keyword, message } = formData;
     // e.preventDefault();
