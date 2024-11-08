@@ -3,6 +3,15 @@ import TransactionContext from "./TransactionContext";
 import { useEffect, useState } from "react";
 const { ethereum } = window;
 const TransactionsProvider = ({ children }) => {
+  const [formData, setFormData] = useState({
+    addressTo: "",
+    amount: "",
+    keyword: "",
+    message: "",
+  });
+  const handleChange = (e, name) => {
+    setFormData((prevState) => ({ ...prevState, [name]: e.target.value }));
+  };
   const [connectAccount, setConnectAccount] = useState("");
   const checkWallet = async () => {
     try {
@@ -35,7 +44,13 @@ const TransactionsProvider = ({ children }) => {
   };
   return (
     <TransactionContext.Provider
-      value={{ connectWallet, currentAccount: connectAccount }}
+      value={{
+        connectWallet,
+        currentAccount: connectAccount,
+        formData,
+        setFormData,
+        handleChange,
+      }}
     >
       {children}
     </TransactionContext.Provider>
