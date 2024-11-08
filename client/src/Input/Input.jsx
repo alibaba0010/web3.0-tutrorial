@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 const Input = ({ placeholder, name, type, value, handleChange }) => {
-  console.log("Input", placeholder, value);
+  // console.log("Input", placeholder, value);
   return (
     <input
       placeholder={placeholder}
@@ -18,7 +18,7 @@ Input.propTypes = {
   placeholder: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
 };
 export default Input;

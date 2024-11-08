@@ -1,20 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { contractABI, contractAddress } from "../utils/constants";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-const TransactionContext = () => {
-  useEffect();
-  const [currentAccount, setCurrentAccount] = useState("");
-  const [formData, setFormData] = useState({
-    addressTo: "",
-    amount: "",
-    keyword: "",
-    message: "",
-  });
-  useContext();
-  contractABI;
-  contractAddress;
-  const handleChange = () => {};
-  return <div>TransactionContext</div>;
-};
+const TransactionContext = createContext({
+  value: "",
+});
 
 export default TransactionContext;
