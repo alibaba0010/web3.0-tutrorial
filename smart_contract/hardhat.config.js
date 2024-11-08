@@ -1,6 +1,12 @@
+require("dotenv").config(); //all the key value pairs are being made available due to this lib
 require("@nomicfoundation/hardhat-toolbox");
 
-/** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.27",
+  solidity: "0.8.17",
+  networks: {
+    arbitrum: {
+      url: `${process.env.ALCHEMY_ARBITRUM_URL}`,
+      accounts: [`0x${process.env.ARBITRUM_PRIVATE_KEY}`],
+    },
+  },
 };

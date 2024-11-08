@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.17;
 
 import "hardhat/console.sol";
 
@@ -18,7 +18,7 @@ contract Transactions {
         string keyword;
     }
 
-    TransferStruct[] transactions;
+    TransferStruct[] transactions; // transactions would be an array of transfer structs
 
     function addToBlockchain(address payable receiver, uint amount, string memory message, string memory keyword) public {
         transactionCount += 1;
