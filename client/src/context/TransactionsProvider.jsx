@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
 import TransactionContext from "./TransactionContext";
 import { useEffect, useState } from "react";
+import { getEtherumContract } from "../utils/etherumContract";
 const { ethereum } = window;
+import { ethers } from "ethers";
+
 const TransactionsProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     addressTo: "",
@@ -42,13 +45,29 @@ const TransactionsProvider = ({ children }) => {
       alert("Unable to connect to metamask", e);
     }
   };
+  const sendTransaction = async () => {
+    try {
+      const transactionContract = await getEtherumContract();
+      const { addressTo, amount, keyword, message } = formData;
+      const transaction = await transactionContract.sendTransaction(
+        addressTo,
+        ethers.utils.parseEther(amount),
+        keyword,
+        message
+      );
+      console.log("Transaction sent: ", transaction);
+    } catch (error) {
+      alert("Unable to send transaction", error);
+      console.log(error);
+    }
+  };
   return (
     <TransactionContext.Provider
       value={{
         connectWallet,
         currentAccount: connectAccount,
         formData,
-        setFormData,
+        sendTransaction,
         handleChange,
       }}
     >

@@ -24,10 +24,10 @@ const Welcome = () => {
   } = useContext(TransactionContext);
   console.log("Current Account: " + currentAccount);
   const handleSubmit = (e) => {
-    // const { addressTo, amount, keyword, message } = formData;
-    // e.preventDefault();
-    // if (!addressTo || !amount || !keyword || !message) return;
-    // sendTransaction();
+    e.preventDefault();
+    const { addressTo, amount, keyword, message } = formData;
+    if (!addressTo || !amount || !keyword || !message) return;
+    sendTransaction();
   };
 
   return (
