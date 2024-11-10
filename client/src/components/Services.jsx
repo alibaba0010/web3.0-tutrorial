@@ -1,8 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { BsShieldFillCheck } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
 import { RiHeart2Fill } from "react-icons/ri";
+import Card from "../context/Card";
 
 function Services() {
   return (
@@ -15,16 +14,30 @@ function Services() {
             continue to improve
           </h1>
         </div>
-      </div>
 
-      <div className="flex-1 flex flex-col justify-start items-center"></div>
+        <div className="flex-1 flex flex-col justify-start items-center">
+          <Card
+            color="bg-[#2952E3]"
+            title="Security gurantee"
+            icon={<BsShieldFillCheck fontSize={21} className="text-white" />}
+            subtitle="Security is guranteed. We always maintain privacy and maintain the quality of our products"
+          />
+          <Card
+            color="bg-[#8945F8]"
+            title="Best exchange rates"
+            icon={<BiSearchAlt fontSize={21} className="text-white" />}
+            subtitle="Security is guranteed. We always maintain privacy and maintain the quality of our products"
+          />
+          <Card
+            color="bg-[#F84550]"
+            title="Fastest transactions"
+            icon={<RiHeart2Fill fontSize={21} className="text-white" />}
+            subtitle="Security is guranteed. We always maintain privacy and maintain the quality of our products"
+          />
+        </div>
+      </div>
     </div>
   );
 }
-
-Services.propTypes = {
-  color: PropTypes.string,
-  icon: PropTypes.string,
-};
 
 export default Services;

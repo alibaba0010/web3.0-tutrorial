@@ -18,7 +18,7 @@ const Card = ({ color, icon, title, subtitle }) => {
 
 Card.propTypes = {
   color: PropTypes.string,
-  icon: PropTypes.string,
+  icon: PropTypes.object,
   title: PropTypes.string,
   subtitle: PropTypes.string,
 };
