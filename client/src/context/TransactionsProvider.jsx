@@ -51,7 +51,7 @@ const TransactionsProvider = ({ children }) => {
   const sendTransaction = async () => {
     try {
       const { addressTo, amount, keyword, message } = formData;
-      const transactionContract = getEtherumContract();
+      const transactionContract = await getEtherumContract();
       console.log("Transaction contract: ", transactionContract);
       const parsedAmount = ethers.parseEther(amount);
       // send transaction ethers
