@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { contractABI, contractAddress } from "./constants";
 const { ethereum } = window;
 export const getEtherumContract = () => {
-  const provider = new ethers.providers.Web3Provider(ethereum);
+  const provider = new ethers.BrowserProvider(ethereum);
   const signer = provider.getSigner();
   const transactionContract = new ethers.Contract(
     contractAddress,
@@ -10,4 +10,5 @@ export const getEtherumContract = () => {
     signer
   );
   console.log(`${provider} ${signer} ${transactionContract}`);
+  return transactionContract;
 };

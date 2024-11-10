@@ -6,6 +6,9 @@ const { ethereum } = window;
 import { ethers } from "ethers";
 
 const TransactionsProvider = ({ children }) => {
+  const [isloading, setIsLoading] = useState(false);
+  const count = localStorage.getItem("transactionCount");
+  const [transactionCount, setTransactionCount] = useState(count);
   const [formData, setFormData] = useState({
     addressTo: "",
     amount: "",
@@ -47,15 +50,39 @@ const TransactionsProvider = ({ children }) => {
   };
   const sendTransaction = async () => {
     try {
-      const transactionContract = await getEtherumContract();
       const { addressTo, amount, keyword, message } = formData;
-      const transaction = await transactionContract.sendTransaction(
+      const transactionContract = getEtherumContract();
+      console.log("Transaction contract: ", transactionContract);
+      const parsedAmount = ethers.parseEther(amount);
+      // send transaction ethers
+      await ethereum.request({
+        method: "eth_sendTransaction",
+        params: [
+          {
+            from: connectAccount,
+            to: addressTo,
+            gas: "0x5208",
+            // value: parsedAmount._hex,
+            value: parsedAmount._hex,
+          },
+        ],
+      });
+      // to store the transaction
+      const transactionHash = await transactionContract.addToBlockchain(
         addressTo,
-        ethers.utils.parseEther(amount),
-        keyword,
-        message
+        parsedAmount,
+        message,
+        keyword
       );
-      console.log("Transaction sent: ", transaction);
+      setIsLoading(true);
+      console.log(`Loading - ${transactionHash.hash}`);
+      await transactionHash.wait();
+      console.log(`Success - ${transactionHash.hash}`);
+      setIsLoading(false);
+
+      const transactionsCount = await transactionContract.getTransactionCount();
+      // incrase the count after each transaction
+      setTransactionCount(transactionsCount.toNumber());
     } catch (error) {
       alert("Unable to send transaction", error);
       console.log(error);
@@ -69,6 +96,7 @@ const TransactionsProvider = ({ children }) => {
         formData,
         sendTransaction,
         handleChange,
+        isloading,
       }}
     >
       {children}
