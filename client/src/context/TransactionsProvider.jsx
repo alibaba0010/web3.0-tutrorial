@@ -8,6 +8,7 @@ import { ethers } from "ethers";
 const TransactionsProvider = ({ children }) => {
   const [isloading, setIsLoading] = useState(false);
   const count = localStorage.getItem("transactionCount");
+  const [connectAccount, setConnectAccount] = useState("");
   const [transactionCount, setTransactionCount] = useState(count);
   const [formData, setFormData] = useState({
     addressTo: "",
@@ -18,7 +19,6 @@ const TransactionsProvider = ({ children }) => {
   const handleChange = (e, name) => {
     setFormData((prevState) => ({ ...prevState, [name]: e.target.value }));
   };
-  const [connectAccount, setConnectAccount] = useState("");
   const checkWallet = async () => {
     try {
       if (!ethereum) return alert("Please install metamask wallet");
@@ -81,6 +81,7 @@ const TransactionsProvider = ({ children }) => {
       setIsLoading(false);
 
       const transactionsCount = await transactionContract.getTransactionCount();
+      console.log(`Transaction count: ${transactionsCount}`);
       // incrase the count after each transaction
       setTransactionCount(transactionsCount.toNumber());
     } catch (error) {
