@@ -7,7 +7,7 @@ const App = () => (
       <Welcome />
     </div>
     <Services />
-    {/* <Transaction /> */}
+    <Transaction />
     <Footer />
   </div>
 );
