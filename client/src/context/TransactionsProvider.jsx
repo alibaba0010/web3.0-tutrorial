@@ -10,6 +10,7 @@ const TransactionsProvider = ({ children }) => {
   const count = localStorage.getItem("transactionCount");
   const [connectAccount, setConnectAccount] = useState("");
   const [transactionCount, setTransactionCount] = useState(count);
+  const [transactions, setTransactions] = useState([]);
   const [formData, setFormData] = useState({
     addressTo: "",
     amount: "",
@@ -98,6 +99,7 @@ const TransactionsProvider = ({ children }) => {
         sendTransaction,
         handleChange,
         isloading,
+        transactions,
       }}
     >
       {children}
