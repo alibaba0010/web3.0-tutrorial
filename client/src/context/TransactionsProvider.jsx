@@ -20,6 +20,15 @@ const TransactionsProvider = ({ children }) => {
   const handleChange = (e, name) => {
     setFormData((prevState) => ({ ...prevState, [name]: e.target.value }));
   };
+  // function to get all transactions
+  const getAllTransactions = async () => {
+    setIsLoading(true);
+    const transactionContract = await getEtherumContract();
+    const allTransactions = await transactionContract.getAllTransactions();
+    // console.log("All transactions: ", allTransactions);
+    setTransactions(allTransactions);
+    setIsLoading(false);
+  };
   const checkWallet = async () => {
     try {
       if (!ethereum) return alert("Please install metamask wallet");
@@ -28,15 +37,30 @@ const TransactionsProvider = ({ children }) => {
       if (accounts.length) {
         setConnectAccount(accounts[0]);
         // get All transactions
+        await getAllTransactions();
       }
-      console.log("Address: " + accounts);
+      // console.log("Address: " + accounts);
     } catch (error) {
       alert("No account found");
       console.log(error);
     }
   };
+  // function to check if transaction exist
+  const checkTransaction = async () => {
+    const transactionContract = await getEtherumContract();
+    const currentTransactionCount =
+      await transactionContract.getTransactionCount();
+    console.log("Current transaction count: " + currentTransactionCount);
+
+    // setTransactions((prevState) => [transaction, ...prevState]);
+    // setTransactionCount(prevState.length + 1);
+    localStorage.setItem("transactionCount", currentTransactionCount);
+  };
+
+  // listen for new transactions
   useEffect(() => {
     checkWallet();
+    checkTransaction();
   }, []);
   const connectWallet = async () => {
     try {
