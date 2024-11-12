@@ -1,32 +1,39 @@
 import { useEffect, useState } from "react";
 
-const API_KEY = import.meta.VITE_GIPHY_API_KEY;
+const APIKEY = import.meta.env.VITE_GIPHY_API_KEY;
 
 const useFetch = ({ keyword }) => {
-  const [data, setData] = useState("");
+  const [gifUrl, setGifUrl] = useState("");
 
-  const fetchData = async () => {
+  const fetchGifs = async () => {
+    const key = keyword.split(" ").join("");
     try {
       const response = await fetch(
-        `https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${keyword
-          .split(" ")
-          .join("")}&limit=1`
+        `https://api.giphy.com/v1/gifs/search?api_key=${APIKEY}&q=${key}&limit=1`
       );
-      const result = await response.json();
-      setData(result.data[0]?.images?.downsized_medium.url);
-    } catch (e) {
-      setData(
+      const { data } = await response.json();
+      if (data.length) {
+        setGifUrl(data[0]?.images?.downsized_medium.url);
+      } else {
+        setGifUrl(
+          "https://metro.co.uk/wp-content/uploads/2015/05/pokemon_crying.gif?quality=90&strip=all&zoom=1&resize=500%2C284"
+        );
+      }
+    } catch (error) {
+      setGifUrl(
         "https://metro.co.uk/wp-content/uploads/2015/05/pokemon_crying.gif?quality=90&strip=all&zoom=1&resize=500%2C284"
       );
     }
   };
+
   useEffect(() => {
     if (keyword) {
-      fetchData();
+      console.log("In use fetch keyword: " + keyword);
+      fetchGifs();
     }
   }, [keyword]);
 
-  return data;
+  return gifUrl;
 };
 
 export default useFetch;

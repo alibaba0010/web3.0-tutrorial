@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getEtherumContract } from "../utils/etherumContract";
 const { ethereum } = window;
 import { ethers } from "ethers";
+import convertBigIntToDate from "../utils/convertDate";
 
 const TransactionsProvider = ({ children }) => {
   const [isloading, setIsLoading] = useState(false);
@@ -21,12 +22,23 @@ const TransactionsProvider = ({ children }) => {
     setFormData((prevState) => ({ ...prevState, [name]: e.target.value }));
   };
   // function to get all transactions
-  const getAllTransactions = async () => {
+  const getAvailableTransactions = async () => {
     setIsLoading(true);
     const transactionContract = await getEtherumContract();
     const allTransactions = await transactionContract.getAllTransactions();
-    // console.log("All transactions: ", allTransactions);
-    setTransactions(allTransactions);
+    const getAmount = parseInt(allTransactions[0].amount) / 10 ** 18;
+    // console.log("All transactions: ", getAmount);
+    const time = convertBigIntToDate(allTransactions[0].timestamp);
+    const structuredTransactions = allTransactions.map((transaction) => ({
+      addressTo: transaction.receiver,
+      addressFrom: transaction.sender,
+      timestamp: time,
+      message: transaction.message,
+      keyword: transaction.keyword,
+      amount: getAmount,
+    }));
+    // console.log("Structured transactions: ", structuredTransactions);
+    setTransactions(structuredTransactions);
     setIsLoading(false);
   };
   const checkWallet = async () => {
@@ -35,13 +47,14 @@ const TransactionsProvider = ({ children }) => {
       // get accounts
       const accounts = await ethereum.request({ method: "eth_accounts" });
       if (accounts.length) {
+        // console.log("Address: " + accounts.length);
         setConnectAccount(accounts[0]);
         // get All transactions
-        await getAllTransactions();
+        await getAvailableTransactions();
+      } else {
+        alert("No account found in this blockchain");
       }
-      // console.log("Address: " + accounts);
     } catch (error) {
-      alert("No account found");
       console.log(error);
     }
   };
@@ -108,7 +121,7 @@ const TransactionsProvider = ({ children }) => {
       const transactionsCount = await transactionContract.getTransactionCount();
       console.log(`Transaction count: ${transactionsCount}`);
       // incrase the count after each transaction
-      setTransactionCount(transactionsCount.toNumber());
+      setTransactionCount(transactionsCount);
     } catch (error) {
       alert("Unable to send transaction", error);
       console.log(error);

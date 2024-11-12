@@ -12,6 +12,7 @@ const TransactionsCard = ({
   url,
 }) => {
   const gifUrl = useFetch({ keyword });
+
   return (
     <div
       className="bg-[#181918] m-4 flex flex-1
@@ -64,7 +65,7 @@ flex-col p-3 rounded-md hover:shadow-2xl"
 TransactionsCard.propTypes = {
   addressFrom: PropTypes.string, //.isRequired,
   addressTo: PropTypes.string, //.isRequired,
-  amount: PropTypes.string, //.isRequired,
+  amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), //.isRequired,
   message: PropTypes.string,
   timestamp: PropTypes.string, //.isRequired,
   keyword: PropTypes.string, //.isRequired,
